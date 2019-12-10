@@ -11,6 +11,7 @@ import (
 )
 
 var exclusions = flag.String("exclude", "", "A comma separated list of commands. Performs an exact match for each provided word.")
+var minOccurrences = flag.Int("minCount", 1, "The minimum frequency count for the command to be included.")
 
 func main() {
 	flag.Parse()
@@ -32,10 +33,22 @@ func main() {
 		}
 	}
 
-	err = buildWorldCloud(wl)
+	err = buildWorldCloud(filterWordList(wl))
 	if err != nil {
 		log.Fatalf("Cannot build word cloud. Error: %v", err)
 	}
+}
+
+func filterWordList(wl map[string]int) map[string]int {
+	res := map[string]int{}
+
+	for k, v := range wl {
+		if v >= *minOccurrences {
+			res[k] = v
+		}
+	}
+
+	return res
 }
 
 func isExclusion(term string) bool {
