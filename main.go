@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"image/color"
 	"image/png"
 	"io/ioutil"
@@ -13,7 +14,10 @@ import (
 	"github.com/psykhi/wordclouds"
 )
 
+var exclusions = flag.String("exclude", "", "A comma separated list of commands. Performs an exact match for each provided word.")
+
 func main() {
+	flag.Parse()
 	h := os.Getenv("HOME")
 
 	fl, err := ioutil.ReadDir(h)
@@ -36,6 +40,20 @@ func main() {
 	if err != nil {
 		log.Fatalf("Cannot build word cloud. Error: %v", err)
 	}
+}
+
+func isExclusion(term string) bool {
+	for _, e := range getExclusions() {
+		if term == e {
+			return true
+		}
+	}
+
+	return false
+}
+
+func getExclusions() []string {
+	return strings.Split(*exclusions, ",")
 }
 
 func buildWorldCloud(wordList map[string]int) error {
@@ -85,6 +103,10 @@ func processHistoryFile(filename string, wordList map[string]int) error {
 	sc := bufio.NewScanner(f)
 	for sc.Scan() {
 		w := parseHistoryLine(filename, sc.Text())
+
+		if isExclusion(w) {
+			continue
+		}
 
 		_, ok := wordList[w]
 		if !ok {
