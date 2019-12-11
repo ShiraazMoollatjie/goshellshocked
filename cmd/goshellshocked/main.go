@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ShiraazMoollatjie/goshellshocked"
+	"github.com/ShiraazMoollatjie/goshellshocked/pkg/goshellshocked"
 )
 
 var exclusions = flag.String("exclude", "", "A comma separated list of commands. Performs an exact match for each provided word.")
