@@ -8,6 +8,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/ShiraazMoollatjie/goshellshocked"
 )
 
 var exclusions = flag.String("exclude", "", "A comma separated list of commands. Performs an exact match for each provided word.")
@@ -34,7 +36,7 @@ func main() {
 		}
 	}
 
-	err = buildWorldCloud(toFrequencyMap(wl))
+	err = goshellshocked.BuildWorldCloud(toFrequencyMap(wl))
 	if err != nil {
 		log.Fatalf("Cannot build word cloud. Error: %v", err)
 	}
@@ -85,7 +87,7 @@ func processHistoryFile(filename string) ([]string, error) {
 	sc := bufio.NewScanner(f)
 	var res []string
 	for sc.Scan() {
-		w := parse(filename, sc.Text())
+		w := goshellshocked.Parse(filename, sc.Text())
 
 		if isExclusion(w) {
 			continue

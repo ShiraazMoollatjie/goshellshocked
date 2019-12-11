@@ -1,4 +1,4 @@
-package main
+package goshellshocked
 
 import (
 	"image/color"
@@ -8,7 +8,7 @@ import (
 	"github.com/psykhi/wordclouds"
 )
 
-func buildWorldCloud(wordList map[string]int) error {
+func BuildWorldCloud(wordList map[string]int) error {
 	colors := make([]color.Color, 0)
 	for _, c := range []color.RGBA{
 		{0x1b, 0x1b, 0x1b, 0xff},

@@ -1,4 +1,4 @@
-package main
+package goshellshocked
 
 import "strings"
 
@@ -27,7 +27,7 @@ func (p zshParser) parse(line string) string {
 	return li[1]
 }
 
-func parse(filename, line string) string {
+func Parse(filename, line string) string {
 	if strings.Contains(filename, "zsh") {
 		return newZshParser().parse(line)
 	}
