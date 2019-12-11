@@ -24,7 +24,7 @@ func buildWorldCloud(wordList map[string]int) error {
 		wordclouds.Height(2048),
 		wordclouds.Width(2048),
 		wordclouds.FontFile("Roboto-Regular.ttf"),
-		wordclouds.FontMaxSize(700),
+		wordclouds.FontMaxSize(100),
 		wordclouds.FontMinSize(10),
 		wordclouds.Colors(colors),
 	)

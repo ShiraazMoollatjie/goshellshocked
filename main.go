@@ -22,33 +22,44 @@ func main() {
 		log.Fatalf("Cannot read from directory %v. Error: %v", h, err)
 	}
 
-	wl := map[string]int{}
+	var wl []string
 	for _, f := range fl {
 		if strings.Contains(f.Name(), "_history") {
 			log.Printf("Found history file: %v", f.Name())
-			err := processHistoryFile(filepath.Join(h, f.Name()), wl)
+			w, err := processHistoryFile(filepath.Join(h, f.Name()))
 			if err != nil {
 				log.Fatalf("Cannot read history file %v. Error: %v", f, err)
 			}
+			wl = append(wl, w...)
 		}
 	}
 
-	err = buildWorldCloud(filterWordList(wl))
+	err = buildWorldCloud(toFrequencyMap(wl))
 	if err != nil {
 		log.Fatalf("Cannot build word cloud. Error: %v", err)
 	}
 }
 
-func filterWordList(wl map[string]int) map[string]int {
+func toFrequencyMap(wl []string) map[string]int {
 	res := map[string]int{}
 
-	for k, v := range wl {
-		if v >= *minOccurrences {
-			res[k] = v
+	for _, w := range wl {
+		_, ok := res[w]
+		if !ok {
+			res[w] = 1
+		} else {
+			res[w]++
 		}
 	}
 
-	return res
+	freq := map[string]int{}
+	for k, v := range res {
+		if v > *minOccurrences {
+			freq[k] = v
+		}
+	}
+
+	return freq
 }
 
 func isExclusion(term string) bool {
@@ -65,13 +76,14 @@ func getExclusions() []string {
 	return strings.Split(*exclusions, ",")
 }
 
-func processHistoryFile(filename string, wordList map[string]int) error {
+func processHistoryFile(filename string) ([]string, error) {
 	f, err := os.Open(filename)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	sc := bufio.NewScanner(f)
+	var res []string
 	for sc.Scan() {
 		w := parse(filename, sc.Text())
 
@@ -79,13 +91,8 @@ func processHistoryFile(filename string, wordList map[string]int) error {
 			continue
 		}
 
-		_, ok := wordList[w]
-		if !ok {
-			wordList[w] = 1
-		} else {
-			wordList[w]++
-		}
+		res = append(res, w)
 	}
 
-	return nil
+	return res, nil
 }
