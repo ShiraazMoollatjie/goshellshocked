@@ -32,8 +32,8 @@ func main() {
 		}
 	}
 
-	err = goshellshocked.BuildWorldCloud(goshellshocked.ToFrequencyMap(wl))
-	if err != nil {
-		log.Fatalf("Cannot build word cloud. Error: %v", err)
+	cl := goshellshocked.ToCommands(wl)
+	for _, f := range cl.GetData() {
+		log.Printf("Frequency: %v, Command: %v", cl.GetFrequency(f), f)
 	}
 }
