@@ -48,6 +48,7 @@ func parse(filename, line string) string {
 	return bashParser{}.parse(line)
 }
 
+// ProcessHistoryFile parses and returns the commands of the provided history file.
 func ProcessHistoryFile(filename string) ([]string, error) {
 	f, err := os.Open(filename)
 	if err != nil {

@@ -2,6 +2,7 @@ package goshellshocked
 
 import "sort"
 
+// Commands is a container for a list of commands along with their frequencies..
 type Commands struct {
 	data        []string
 	frequencies map[string]int
@@ -17,15 +18,18 @@ func (s Commands) Swap(i, j int) {
 	s.data[j], s.data[i] = s.data[i], s.data[j]
 }
 
+// GetFrequency returns the frequency of the provided command.
 func (s Commands) GetFrequency(command string) int {
 	return s.frequencies[command]
 }
 
+// GetData returns the underlying slice of commands.
 func (s Commands) GetData() []string {
 	return s.data
 }
 
-func (s Commands) IncludeFrequencies(frequency int) Commands {
+// FilterFrequencies returns the Commands that have a higher or equal frequency count than the one provided.
+func (s Commands) FilterFrequencies(frequency int) Commands {
 	var resData []string
 	resFreq := map[string]int{}
 	for k, v := range s.frequencies {
@@ -44,6 +48,7 @@ func (s Commands) IncludeFrequencies(frequency int) Commands {
 	return res
 }
 
+// ToCommands converts a slice of terminal commands into a Commands type.
 func ToCommands(wl []string) Commands {
 	freq := map[string]int{}
 
@@ -61,5 +66,5 @@ func ToCommands(wl []string) Commands {
 		frequencies: freq,
 	}
 
-	return commands.IncludeFrequencies(*minOccurrences)
+	return commands.FilterFrequencies(*minOccurrences)
 }
