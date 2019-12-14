@@ -31,7 +31,7 @@ func (f fishParser) parse(line string) string {
 		return ""
 	}
 
-	if !strings.HasPrefix(li[0], "- cmd:") {
+	if !strings.HasPrefix(li[0], "- cmd") {
 		return ""
 	}
 

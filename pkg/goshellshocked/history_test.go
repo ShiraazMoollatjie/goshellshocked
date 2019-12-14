@@ -1,6 +1,8 @@
 package goshellshocked
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestFishParser(t *testing.T) {
 	testCases := []struct {
@@ -15,7 +17,10 @@ func TestFishParser(t *testing.T) {
 	}
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
-
+			res := fishParser{}.parse(tC.command)
+			if res != tC.result {
+				t.Fatalf("expected %v, got %v", tC.result, res)
+			}
 		})
 	}
 }
@@ -33,7 +38,10 @@ func TestZSHParser(t *testing.T) {
 	}
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
-
+			res := zshParser{}.parse(tC.command)
+			if res != tC.result {
+				t.Fatalf("expected %v, got %v", tC.result, res)
+			}
 		})
 	}
 }
@@ -50,7 +58,10 @@ func TestBashParser(t *testing.T) {
 	}
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
-
+			res := bashParser{}.parse(tC.command)
+			if res != tC.result {
+				t.Fatalf("expected %v, got %v", tC.result, res)
+			}
 		})
 	}
 }
