@@ -12,15 +12,7 @@ func (p bashParser) parse(line string) string {
 	return line
 }
 
-func newBashParser() *bashParser {
-	return &bashParser{}
-}
-
 type zshParser struct{}
-
-func newZshParser() *zshParser {
-	return &zshParser{}
-}
 
 func (p zshParser) parse(line string) string {
 	li := strings.Split(line, ";")
@@ -31,12 +23,29 @@ func (p zshParser) parse(line string) string {
 	return li[1]
 }
 
-func parse(filename, line string) string {
-	if strings.Contains(filename, "zsh") {
-		return newZshParser().parse(line)
+type fishParser struct{}
+
+func (f fishParser) parse(line string) string {
+	li := strings.Split(line, ": ")
+	if len(li) < 2 {
+		return ""
 	}
 
-	return newBashParser().parse(line)
+	if !strings.HasPrefix(li[0], "- cmd:") {
+		return ""
+	}
+
+	return li[1]
+}
+
+func parse(filename, line string) string {
+	if strings.Contains(filename, "zsh") {
+		return zshParser{}.parse(line)
+	} else if strings.Contains(filename, "fish") {
+		return fishParser{}.parse(line)
+	}
+
+	return bashParser{}.parse(line)
 }
 
 func ProcessHistoryFile(filename string) ([]string, error) {
