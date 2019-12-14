@@ -8,9 +8,13 @@ import (
 var exclusions = flag.String("exclude", "", "A comma separated list of commands. Performs an exact match for each provided word.")
 var minOccurrences = flag.Int("minCount", 1, "The minimum frequency count for the command to be included.")
 
-func isExclusion(term string) bool {
+func isExclusion(command string) bool {
+	if command == "" {
+		return true
+	}
+
 	for _, e := range getExclusions() {
-		if term == e {
+		if command == e {
 			return true
 		}
 	}
