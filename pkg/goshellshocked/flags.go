@@ -6,7 +6,7 @@ import (
 )
 
 var exclusions = flag.String("exclude", "", "A comma separated list of commands. Performs an exact match for each provided word.")
-var minOccurrences = flag.Int("minCount", 1, "The minimum frequency count for the command to be included.")
+var ignore = flag.Int("ignore", 1, "Anything frequency less than the ignored amount should be excluded.")
 
 func isExclusion(command string) bool {
 	if command == "" {

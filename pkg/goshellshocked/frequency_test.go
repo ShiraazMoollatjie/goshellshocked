@@ -5,12 +5,12 @@ import (
 	"testing"
 )
 
-func setMinOccurrencesForTesting(t *testing.T, minOccurence int) func() {
+func setIgnoreForTesting(t *testing.T, minOccurence int) func() {
 	return func() {
-		old := minOccurrences
-		*minOccurrences = minOccurence
+		old := ignore
+		*ignore = minOccurence
 		defer func() {
-			*minOccurrences = *old
+			*ignore = *old
 		}()
 	}
 }
@@ -58,7 +58,7 @@ func TestToCommands(t *testing.T) {
 	}
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
-			setMinOccurrencesForTesting(t, tC.minOccurrences)()
+			setIgnoreForTesting(t, tC.minOccurrences)()
 			c := ToCommands(tC.shellHistory)
 			if !reflect.DeepEqual(c.data, tC.expectedCommands) {
 				t.Errorf("incorrect commands generated for shellHistory %v. expected %v, generated %v", tC.shellHistory, tC.expectedCommands, c.data)

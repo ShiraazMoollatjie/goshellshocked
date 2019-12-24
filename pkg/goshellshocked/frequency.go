@@ -66,5 +66,5 @@ func ToCommands(wl []string) Commands {
 		frequencies: freq,
 	}
 
-	return commands.FilterFrequencies(*minOccurrences)
+	return commands.FilterFrequencies(*ignore)
 }
