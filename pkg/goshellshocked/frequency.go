@@ -33,7 +33,7 @@ func (s Commands) FilterFrequencies(frequency int) Commands {
 	var resData []string
 	resFreq := map[string]int{}
 	for k, v := range s.frequencies {
-		if v >= frequency {
+		if v > frequency {
 			resData = append(resData, k)
 			resFreq[k] = v
 		}
