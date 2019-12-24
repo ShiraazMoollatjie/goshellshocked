@@ -1,8 +1,9 @@
 package goshellshocked
 
-import "testing"
-
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
 func setExclusionForTesting(t *testing.T, exclusion string) func() {
 	return func() {

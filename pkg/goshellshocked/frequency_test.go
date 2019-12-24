@@ -1,8 +1,9 @@
 package goshellshocked
 
-import "testing"
-
-import "reflect"
+import (
+	"reflect"
+	"testing"
+)
 
 func setMinOccurrencesForTesting(t *testing.T, minOccurence int) func() {
 	return func() {
