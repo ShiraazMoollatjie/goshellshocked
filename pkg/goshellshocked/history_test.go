@@ -17,7 +17,7 @@ func TestFishParser(t *testing.T) {
 	}
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
-			res := fishParser{}.parse(tC.command)
+			res := parseFish(tC.command)
 			if res != tC.result {
 				t.Fatalf("expected %v, got %v", tC.result, res)
 			}
@@ -38,7 +38,7 @@ func TestZSHParser(t *testing.T) {
 	}
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
-			res := zshParser{}.parse(tC.command)
+			res := parseZsh(tC.command)
 			if res != tC.result {
 				t.Fatalf("expected %v, got %v", tC.result, res)
 			}
@@ -58,7 +58,7 @@ func TestBashParser(t *testing.T) {
 	}
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
-			res := bashParser{}.parse(tC.command)
+			res := parseBash(tC.command)
 			if res != tC.result {
 				t.Fatalf("expected %v, got %v", tC.result, res)
 			}

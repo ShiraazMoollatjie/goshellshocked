@@ -6,15 +6,11 @@ import (
 	"strings"
 )
 
-type bashParser struct{}
-
-func (p bashParser) parse(line string) string {
+func parseBash(line string) string {
 	return line
 }
 
-type zshParser struct{}
-
-func (p zshParser) parse(line string) string {
+func parseZsh(line string) string {
 	li := strings.Split(line, ";")
 	if len(li) < 2 {
 		return ""
@@ -23,9 +19,7 @@ func (p zshParser) parse(line string) string {
 	return li[1]
 }
 
-type fishParser struct{}
-
-func (f fishParser) parse(line string) string {
+func parseFish(line string) string {
 	li := strings.Split(line, ": ")
 	if len(li) < 2 {
 		return ""
@@ -40,12 +34,12 @@ func (f fishParser) parse(line string) string {
 
 func parse(filename, line string) string {
 	if strings.Contains(filename, "zsh") {
-		return zshParser{}.parse(line)
+		return parseZsh(line)
 	} else if strings.Contains(filename, "fish") {
-		return fishParser{}.parse(line)
+		return parseFish(line)
 	}
 
-	return bashParser{}.parse(line)
+	return parseBash(line)
 }
 
 // ProcessHistoryFile parses and returns the commands of the provided history file.
