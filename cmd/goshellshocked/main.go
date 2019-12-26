@@ -33,7 +33,5 @@ func main() {
 	}
 
 	cl := goshellshocked.ToCommands(wl)
-	for _, f := range cl.GetData() {
-		log.Printf("Frequency: %v, Command: %v", cl.GetFrequency(f), f)
-	}
+	goshellshocked.Write(cl)
 }
