@@ -2,40 +2,22 @@ package goshellshocked
 
 import (
 	"encoding/json"
-	"errors"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
+	"path"
+
+	"gopkg.in/yaml.v2"
 )
 
-// PrintOption defines the different options of printing output.
-type PrintOption int
-
-const (
-	printOptionUnknown PrintOption = iota
-
-	// PrintOptionStdout writes to stdout.
-	PrintOptionStdout
-
-	// PrintOptionJSON writes to a json file.
-	PrintOptionJSON
-
-	// PrintOptionYAML writes to a json file.
-	PrintOptionYAML
-)
-
-// Write will write the provided commands to the provided PrintOption mode.
+// Write will write the provided commands. Depends on the value set in the output flag.
 func Write(commands Commands) error {
-	mode := GetPrintOption()
-	switch mode {
-	case PrintOptionStdout:
-		return logToStdOut(commands)
-	case PrintOptionJSON:
+	switch getOutput() {
+	case "json":
 		return writeToJSONFile(commands)
-	case PrintOptionYAML:
+	case "yaml":
 		return writeToYAMLFile(commands)
 	default:
-		return errors.New("unsupported printoption")
+		return logToStdOut(commands)
 	}
 }
 
@@ -48,7 +30,8 @@ func logToStdOut(commands Commands) error {
 	return nil
 }
 
-type command struct {
+// printCmd is a representation of a printable command.
+type printCmd struct {
 	Command   string
 	Frequency int
 }
@@ -66,7 +49,12 @@ func writeToJSONFile(commands Commands) error {
 		return err
 	}
 
-	return ioutil.WriteFile(jsonFile, b, 0400)
+	dir, err := getOutputDir()
+	if err != nil {
+		return err
+	}
+
+	return ioutil.WriteFile(path.Join(dir, jsonFile), b, 0400)
 }
 
 func writeToYAMLFile(commands Commands) error {
@@ -77,14 +65,19 @@ func writeToYAMLFile(commands Commands) error {
 		return err
 	}
 
-	return ioutil.WriteFile(yamlFile, b, 0600)
+	dir, err := getOutputDir()
+	if err != nil {
+		return err
+	}
+
+	return ioutil.WriteFile(path.Join(dir, yamlFile), b, 0600)
 }
 
 // getCommandList is a helper function to build a command slice
-func getCommandList(commands Commands) []command {
-	var cl []command
+func getCommandList(commands Commands) []printCmd {
+	var cl []printCmd
 	for _, c := range commands.GetData() {
-		cl = append(cl, command{
+		cl = append(cl, printCmd{
 			Command:   c,
 			Frequency: commands.GetFrequency(c),
 		})
