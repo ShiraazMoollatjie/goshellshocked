@@ -19,7 +19,7 @@ func TestToCommands(t *testing.T) {
 	testCases := []struct {
 		desc             string
 		shellHistory     []string
-		minOccurrences   int
+		ignore           int
 		expectedCommands []string
 	}{
 		{
@@ -28,7 +28,7 @@ func TestToCommands(t *testing.T) {
 				"ls",
 				"ls",
 			},
-			minOccurrences: 1,
+			ignore: 1,
 			expectedCommands: []string{
 				"ls",
 			},
@@ -39,7 +39,7 @@ func TestToCommands(t *testing.T) {
 				"ls",
 				"ls",
 			},
-			minOccurrences:   3,
+			ignore:           3,
 			expectedCommands: nil,
 		},
 		{
@@ -49,16 +49,15 @@ func TestToCommands(t *testing.T) {
 				"ls",
 				"ls",
 			},
-			minOccurrences: 1,
+			ignore: 1,
 			expectedCommands: []string{
 				"ls",
-				"git branch -v",
 			},
 		},
 	}
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
-			setIgnoreForTesting(t, tC.minOccurrences)()
+			setIgnoreForTesting(t, tC.ignore)()
 			c := ToCommands(tC.shellHistory)
 			if !reflect.DeepEqual(c.data, tC.expectedCommands) {
 				t.Errorf("incorrect commands generated for shellHistory %v. expected %v, generated %v", tC.shellHistory, tC.expectedCommands, c.data)
