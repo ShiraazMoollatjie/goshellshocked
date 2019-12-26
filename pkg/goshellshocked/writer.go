@@ -30,8 +30,8 @@ func logToStdOut(commands Commands) error {
 	return nil
 }
 
-// printCmd is a representation of a printable command.
-type printCmd struct {
+// writeCmd is a representation of a printable command.
+type writeCmd struct {
 	Command   string
 	Frequency int
 }
@@ -74,10 +74,10 @@ func writeToYAMLFile(commands Commands) error {
 }
 
 // getCommandList is a helper function to build a command slice
-func getCommandList(commands Commands) []printCmd {
-	var cl []printCmd
+func getCommandList(commands Commands) []writeCmd {
+	var cl []writeCmd
 	for _, c := range commands.GetData() {
-		cl = append(cl, printCmd{
+		cl = append(cl, writeCmd{
 			Command:   c,
 			Frequency: commands.GetFrequency(c),
 		})

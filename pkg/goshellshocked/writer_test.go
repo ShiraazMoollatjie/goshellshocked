@@ -42,7 +42,7 @@ var testCommand = Commands{
 	},
 }
 
-var result = []printCmd{
+var result = []writeCmd{
 	{
 		Command:   "ls",
 		Frequency: 3,
@@ -87,7 +87,7 @@ func TestLogToJSON(t *testing.T) {
 		t.Errorf("error finding json file Error: %+v", err)
 	}
 
-	var res []printCmd
+	var res []writeCmd
 	json.Unmarshal(b, &res)
 	if !reflect.DeepEqual(res, result) {
 		t.Errorf("error comparing content. \nExpected:\t%+v\nActual:\t%+v", res, result)
@@ -117,7 +117,7 @@ func TestLogToYAML(t *testing.T) {
 		t.Errorf("error finding yaml file Error: %+v", err)
 	}
 
-	var res []printCmd
+	var res []writeCmd
 	yaml.Unmarshal(b, &res)
 	if !reflect.DeepEqual(res, result) {
 		t.Errorf("error comparing content. \nExpected:\t%+v\nActual:\t%+v", res, result)
