@@ -1,7 +1,8 @@
 # goshellshocked
 [![Go Report Card](https://goreportcard.com/badge/github.com/ShiraazMoollatjie/goshellshocked?style=flat-square)](https://goreportcard.com/report/github.com/ShiraazMoollatjie/goshellshocked)
 [![Go Doc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](http://godoc.org/github.com/ShiraazMoollatjie/goshellshocked)
-[![Build status](https://ci.appveyor.com/api/projects/status/qiyndko2krd4ltep?svg=true)](https://ci.appveyor.com/project/ShiraazMoollatjie/goshellshocked)
+[![Build status](https://ci.appveyor.com/api/projects/status/brw55guj4gmq0m1v/branch/master?svg=true)](https://ci.appveyor.com/project/ShiraazMoollatjie/goshellshocked/branch/master)
+
 
 > Shellshocked because teenage mutant ninja turtles reference. Also, you'll be surprised at what your history files conjures up.
 
